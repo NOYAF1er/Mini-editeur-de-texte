@@ -1,12 +1,17 @@
 package invoker;
 
-import java.util.Collection;
-import java.util.HashMap;
-
 import command.Command;
+import observer.Observer;
+import receiver.Selection;
 
-public interface Ihm {
-	public void insererBouton(String libele, Command commande);
-	public void insererZoneDeTexte(int positionH, int positionV, HashMap<String, Command> fonctions);
-	public void afficher();
+public interface Ihm extends Observer {
+	public Selection getSelection();
+	public void setSelection(int debut, int fin);
+	public String getInputCharacter();
+	public void setInputCharacter(String inputCharacter);
+	public String getPressePapier();
+	public void setPressePapier(String pressePapier);
+	
+	public void addCommand(String keyword, Command cmd);
+	public void invoke(String cmd);
 }

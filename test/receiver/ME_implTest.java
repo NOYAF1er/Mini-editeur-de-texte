@@ -11,7 +11,7 @@ public class ME_implTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		me = new ME_impl();
+		me = new MoteurEdition_Impl();
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class ME_implTest {
 	}
 
 	@Test
-	public void testInsererCaractere() {
+	public void testInsererChar() {
 		fail("Not yet implemented");
 	}
 

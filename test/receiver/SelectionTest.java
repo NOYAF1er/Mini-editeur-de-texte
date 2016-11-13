@@ -12,11 +12,11 @@ public class SelectionTest {
 	public void testSelection(){
 		selection = new Selection(-5, -10);
 		assertEquals("Début différent de 0 avec une valeur d'entrée négative", 0, selection.getDebut());
-		assertEquals("Longueur différente de 0 avec une valeur d'entrée négative", 0, selection.getLongueur());
+		assertEquals("Fin différente de 0 avec une valeur d'entrée négative", 0, selection.getFin());
 
 		selection = new Selection(5, 10);
 		assertEquals("Début différent de la valeur défini en entrée", 5, selection.getDebut());
-		assertEquals("Longueur différente de la valeur défini en entrée", 10, selection.getLongueur());
+		assertEquals("Fin différente de la valeur défini en entrée", 10, selection.getFin());
 	}
 	
 	@Test
@@ -34,15 +34,15 @@ public class SelectionTest {
 	}
 
 	@Test
-	public void testSetLongueur() {
+	public void testSetFin() {
 		selection = new Selection();
 		assertNotNull("L'objet est null lors de l'initialisation", selection);
-		assertEquals("La longueur à l'initialisation est différente de 0", 0, selection.getLongueur());
+		assertEquals("La fin à l'initialisation est différente de 0", 0, selection.getFin());
 		
-		selection.setLongueur(-5);
-		assertEquals("Longueur différente de 0 avec une valeur d'entrée négative", 0, selection.getLongueur());
+		selection.setFin(-5);
+		assertEquals("Fin différente de 0 avec une valeur d'entrée négative", 0, selection.getFin());
 		
-		selection.setLongueur(10);
-		assertEquals("Longueur différente de la valeur défini en entrée", 10, selection.getLongueur());
+		selection.setFin(10);
+		assertEquals("Fin différente de la valeur défini en entrée", 10, selection.getFin());
 	}
 }

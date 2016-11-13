@@ -40,26 +40,27 @@ public class BufferTest {
 		String attendu = "test";
 		buffer = new Buffer(attendu);
 		assertNotNull("L'objet est null après instanciation", buffer);		
-		assertTrue("Contenu du buffer différent de la valeur attendu", buffer.getContenu().equals(attendu));
+		assertTrue("Contenu du buffer différent de la valeur attendu", buffer.getContenuTexte().equals(attendu));
 	}
 
 	/**
-	 * Test method for {@link receiver.Buffer#getContenu()}.
+	 * Test method for {@link receiver.Buffer#getContenuTexte()}.
 	 */
 	@Test
-	public void testGetContenu() {
+	public void testGetContenuTexte() {
 		String attendu = "test";
 		buffer = new Buffer(attendu);
-		assertNotNull("L'objet est null après instanciation", buffer);		
-		assertTrue("Contenu du buffer différent de la valeur attendu", buffer.getContenu().equals(attendu));
+		assertNotNull("L'objet est null après instanciation", buffer);
+		assertTrue("Contenu du buffer différent de la valeur attendu", buffer.getContenuTexte().equals(attendu));
 	}
-
+	
 	/**
 	 * Test method for {@link receiver.Buffer#recuperer(int, int)}.
 	 */
 	@Test
 	public void testRecuperer() {
-		fail("Not yet implemented");
+		buffer = new Buffer("test recup");
+		assertTrue("La chaine recupérée ne correspond pas à la chaine attendu", buffer.recuperer(0, 4).equals("test"));
 	}
 
 	/**
@@ -67,7 +68,9 @@ public class BufferTest {
 	 */
 	@Test
 	public void testSetContenu() {
-		fail("Not yet implemented");
+		StringBuffer sBuff = new StringBuffer();
+		buffer.setContenu(sBuff);
+		assertSame("Objet inséré différent de l'objet récupéré", sBuff, buffer.getContenu());
 	}
 
 	/**
@@ -75,7 +78,10 @@ public class BufferTest {
 	 */
 	@Test
 	public void testSupprimer() {
-		fail("Not yet implemented");
+		buffer = new Buffer("Tester ma classe");
+		buffer.supprimer(6, 17);
+		String attendu = "Tester";
+		assertEquals("Borne inferieur < borne supérieur", attendu, buffer.getContenuTexte());
 	}
 
 	/**
@@ -83,7 +89,11 @@ public class BufferTest {
 	 */
 	@Test
 	public void testInsererChar() {
-		fail("Not yet implemented");
+		buffer.inserer('t');
+		assertEquals("Premier caractère non inséré", "t", String.valueOf(buffer.recuperer(0, 1)));
+
+		buffer.inserer('e');
+		assertEquals("Second caractère non inséré", "e", String.valueOf(buffer.recuperer(1, 2)));
 	}
 
 	/**
@@ -91,7 +101,10 @@ public class BufferTest {
 	 */
 	@Test
 	public void testInsererIntChar() {
-		fail("Not yet implemented");
+		buffer.inserer(0, 't');
+		buffer.inserer(1, 'e');
+		assertEquals("Premier caractère non inséré à la position indiquée", "t", String.valueOf(buffer.recuperer(0, 1)));
+		assertEquals("Second caractère non inséré à la position indiquée", "e", String.valueOf(buffer.recuperer(1, 2)));
 	}
 
 	/**
@@ -99,7 +112,10 @@ public class BufferTest {
 	 */
 	@Test
 	public void testRemplacer() {
-		fail("Not yet implemented");
+		buffer = new Buffer("Tester ma classe");
+		buffer.remplacer(7, 17, "mon objet");
+		String attendu = "Tester mon objet";
+		assertEquals("Texte non remplacé", attendu, buffer.getContenuTexte());
 	}
 
 }

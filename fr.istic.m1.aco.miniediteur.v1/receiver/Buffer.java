@@ -29,12 +29,21 @@ public class Buffer {
 	}
 
 	/**
+	 * Retourne le texte du contenu du buffer
+	 * 
+	 * @return
+	 */
+	public String getContenuTexte() {
+		return contenu.toString();
+	}
+	
+	/**
 	 * Recupère le contenu du buffer
 	 * 
 	 * @return
 	 */
-	public String getContenu() {
-		return contenu.toString();
+	public StringBuffer getContenu() {
+		return contenu;
 	}
 
 	/**

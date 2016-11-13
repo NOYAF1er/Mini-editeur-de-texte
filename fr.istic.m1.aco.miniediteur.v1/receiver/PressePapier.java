@@ -10,6 +10,12 @@ package receiver;
 public class PressePapier {
 
 	private String contenu;
+	/**
+	 * Constructeur
+	 */
+	public PressePapier(){
+		contenu = new String();
+	}
 
 	/**
 	 * Récupère le contenu du presse papier
@@ -27,7 +33,8 @@ public class PressePapier {
 	 *            Le texte à insérer dans le presse papier
 	 */
 	public void setContenu(String texte) {
-		this.contenu = texte;
+		if(texte.length() > 0)
+			this.contenu = texte;
 	}
 
 }

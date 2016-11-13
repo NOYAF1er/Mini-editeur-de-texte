@@ -1,79 +1,221 @@
 package invoker;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import command.Command; 
+import command.Command;
+import observer.Subject;
+import receiver.MoteurEdition;
+import receiver.MoteurEdition_Impl;
+import receiver.Selection;
 
-public class Ihm_Impl implements Ihm {
-	
-	private JFrame fenetre;
-	private Collection<Bouton> boutons;
-	private ZoneDeTexte zoneDeTexte;
+@SuppressWarnings("serial")
+public class Ihm_Impl extends JFrame implements Ihm {
+
+	private Container contenuFenetre = null;
+	private ZoneDeTexte textArea = null;
+	private JButton JBCopier = null;
+	private JButton JBCouper = null;
+	private JButton JBColler = null;
+	private JLabel pressePapierLabel = null;
+	private JLabel selectionLabel = null;
+	private Selection selection;
+	private String inputCharacter;
+	private String pressePapier;
+	private HashMap<String, Command> cmds = null;
 	
 	/**
 	 * Constructeur
+	 * @param moteur : moteur de l'éditeur
+	 * @param ihm : ihm
 	 */
-	public Ihm_Impl() {
-		this.fenetre = new JFrame("Mini-Editeur v1");
-		this.fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.fenetre.setLayout(new BoxLayout(this.fenetre.getContentPane(), BoxLayout.Y_AXIS));
+	public Ihm_Impl(){
+		super("Mini-Editeur V1");
 		
-		this.boutons = new ArrayList<Bouton>();
-	}
-	
-	public void afficher(){
-		this.fenetre.pack();
-		this.fenetre.setLocationRelativeTo(null);
-		this.fenetre.setVisible(true);
-	}
-	
-	/**
-	 * Configure un bouton puis l'insert dans l'interface
-	 * Définit aussi l'action qui rend le focus à la zone de texte après toutes actions sur celui-ci
-	 */
-	@Override
-	public void insererBouton(String libelle, Command commande) {
+		selection = new Selection();
+		pressePapier = "";
+		cmds = new HashMap<String, Command>();
 		
-		Bouton bouton = new Bouton(libelle, commande);
+		contenuFenetre = this.getContentPane();
+		contenuFenetre.setLayout(new BoxLayout(contenuFenetre, BoxLayout.PAGE_AXIS));
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+
+		JPanel zoneSaisiePanel = new JPanel();
+		zoneSaisiePanel.setLayout(new BoxLayout(zoneSaisiePanel, BoxLayout.X_AXIS));
 		
-		bouton.addActionListener(new ActionListener() {
+		JPanel pressePapierViewerPanel = new JPanel();
+		pressePapierViewerPanel.setLayout(new BoxLayout(pressePapierViewerPanel, BoxLayout.X_AXIS));
+
+		JPanel selectionViewerPanel = new JPanel();
+		selectionViewerPanel.setLayout(new BoxLayout(selectionViewerPanel, BoxLayout.X_AXIS));
+		
+		textArea = new ZoneDeTexte(this);
+		textArea.addCaretListener(textArea);
+		textArea.addKeyListener(textArea);
+		
+		zoneSaisiePanel.add(textArea);
+		
+		JBCopier = new JButton("Copier");
+		JBCopier.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				zoneDeTexte.requestFocusInWindow(); //Redonne le focus à la zone de texte
+			public void actionPerformed(ActionEvent e) {
+				invoke("copier");
+				textArea.requestFocusInWindow();
+			}
+		});
+
+		JBCouper = new JButton("Couper");
+		JBCouper.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				invoke("couper");
+				textArea.requestFocusInWindow();
+			}
+		});
+
+		JBColler = new JButton("Coller");
+		JBColler.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				invoke("coller");
+				textArea.requestFocusInWindow();
 			}
 		});
 		
-		boutons.add(bouton); //Ajoute le bouton à la selection
-		this.fenetre.add(bouton); //Ajoute le bouton à la fenêtre
+		buttonPanel.add(JBCopier);
+		buttonPanel.add(JBCouper);
+		buttonPanel.add(JBColler);
+		
+		pressePapierLabel = new JLabel();
+		pressePapierLabel.setText("Presse papier: ");
+		
+		selectionLabel = new JLabel();
+		selectionLabel.setText("Debut Selection:  | Fin Selection: ");
+
+		pressePapierViewerPanel.add(pressePapierLabel);
+		selectionViewerPanel.add(selectionLabel);
+
+		contenuFenetre.add(buttonPanel);
+		contenuFenetre.add(zoneSaisiePanel);
+		contenuFenetre.add(pressePapierViewerPanel);
+		contenuFenetre.add(selectionViewerPanel);
+
+		this.setSize(600, 400);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+	}	
+	
+	/**
+	 * returns the property selection of this object
+	 * 
+	 * @return non-null Selection reference
+	 */
+	public Selection getSelection() {
+		return selection;
+	}
+
+	/**
+	 * set the property selection of this object
+	 * 
+	 * @param debut
+	 *            the begining index
+	 * @param fin
+	 *            the ending index
+	 */
+	public void setSelection(int debut, int fin) {
+		selection.setPosition(debut, fin);
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return le caractère entré
+	 */
+	public String getInputCharacter() {
+		return inputCharacter;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param inputCharacter
+	 *            : caractère entré
+	 */
+	public void setInputCharacter(String inputCharacter) {
+		this.inputCharacter = inputCharacter;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return presse papier
+	 */
+	public String getPressePapier() {
+		return pressePapier;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param pressePapier
+	 *            : presse papier
+	 */
+	public void setPressePapier(String pressePapier) {
+		this.pressePapier = pressePapier;
 	}
 		
 	/**
-	 * Configure la zone de texte et l'insert à la fenêtre
-	 * Définit sa position et ses fonctionnalités
-	 * @param positionH Position horizontale (row)
-	 * @param positionV Position verticale (col)
-	 * @param fonctions Une collection des commandes de la zone de texte
+	 * Ajoute une commande à la hashmap
+	 * 
+	 * @param keyword
+	 *            : mot clé
+	 * @param cmd
+	 *            : commande
 	 */
-	@Override
-	public void insererZoneDeTexte(int positionH, int positionV, HashMap<String, Command> fonctions) {
-		
-		this.zoneDeTexte = new ZoneDeTexte(fonctions);
-		this.zoneDeTexte.setRows(positionH);
-		this.zoneDeTexte.setColumns(positionV);
-		
-		JScrollPane scroll = new JScrollPane(zoneDeTexte); //Ajoute la zone de texte à un JScroll afin de pouvoir avoir un scroll
-		this.fenetre.add(scroll); //Ajoute la zone scrollable contenant la zone de texte à la fenêtre
+	public void addCommand(String keyword, Command cmd) {
+		if ((keyword == null) || (cmd == null)) {
+			throw new IllegalArgumentException("aucun paramètre");
+		}
+		cmds.put(keyword, cmd);
+	}
+
+	/**
+	 * Execute une commande
+	 * 
+	 * @param cmd
+	 *            : commande
+	 */
+	public void invoke(String cmd) {
+		if (cmds.containsKey(cmd))
+			cmds.get(cmd).execute();
+		else
+			throw new IllegalArgumentException(cmd + " n'est pas une commande valide");
 	}
 	
-	
-	
-
+	/**
+	 * 
+	 * @param subject
+	 */
+	public void update(Subject subject) {
+		MoteurEdition moteurEdition = (MoteurEdition_Impl) subject;
+		String texteBuffer = moteurEdition.getBuffer().getContenuTexte();
+		String textePp = moteurEdition.getPressePapier().getContenu();
+		int debutSelec = moteurEdition.getSelection().getDebut();
+		int finSelect = moteurEdition.getSelection().getFin();
+		
+		textArea.setText(texteBuffer);
+		pressePapierLabel.setText("Presse papier: " + textePp);
+		selectionLabel.setText("Debut Selection:  " + debutSelec + " | Fin Selection: " + finSelect);
+	}	
 }
