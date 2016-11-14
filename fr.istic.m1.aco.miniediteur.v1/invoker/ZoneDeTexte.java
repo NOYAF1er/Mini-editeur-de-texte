@@ -36,14 +36,13 @@ public class ZoneDeTexte extends JTextArea implements CaretListener, KeyListener
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
 		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+		 	e.consume();
 			ihm.invoke("supprimer");
 		} else{
 			ihm.setInputCharacter(String.valueOf(e.getKeyChar()));
 			ihm.invoke("insererTexte");
 		}
-
 	}
 
 	@Override
@@ -55,9 +54,12 @@ public class ZoneDeTexte extends JTextArea implements CaretListener, KeyListener
 	public void caretUpdate(CaretEvent e) {
 		int debut = Math.min(e.getDot(), e.getMark());
 		int fin = Math.max(e.getDot(), e.getMark());
-
-		ihm.setSelection(debut, fin);
-		ihm.invoke("selectionner");
+		
+		if(debut != ihm.getSelection().getDebut() || fin != ihm.getSelection().getFin()){
+			ihm.setSelection(debut, fin);
+			ihm.invoke("selectionner");
+			ihm.setSelectionLabelTexte(debut, fin);
+		}
 	}
 	
 }

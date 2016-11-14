@@ -20,7 +20,7 @@ public class Selectionner implements Command {
 
 	@Override
 	public void execute() {
-		Selection selection = ihm.getSelection();		
+		Selection selection = ihm.getSelection();
 		me.selectionner(selection.getDebut(), selection.getFin());
 	}
 

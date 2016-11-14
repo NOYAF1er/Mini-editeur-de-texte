@@ -11,6 +11,8 @@ public interface Ihm extends Observer {
 	public void setInputCharacter(String inputCharacter);
 	public String getPressePapier();
 	public void setPressePapier(String pressePapier);
+	public void setSelectionLabelTexte(int debut, int fin);
+	public void setPressePapierLabelTexte(String texte);
 	
 	public void addCommand(String keyword, Command cmd);
 	public void invoke(String cmd);

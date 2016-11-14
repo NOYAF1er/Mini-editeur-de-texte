@@ -51,7 +51,8 @@ public class MoteurEdition_Impl implements MoteurEdition {
 	 * contenu selectionné du buffer
 	 */
 	public void couper() {
-		this.copier();
+		String aCouper = buffer.recuperer(selection.getDebut(), selection.getFin());
+		pressePapier.setContenu(aCouper);
 		buffer.supprimer(selection.getDebut(), selection.getFin());
 		selection.setFin(selection.getDebut());; // Annule la selection
 		notifyObservers();

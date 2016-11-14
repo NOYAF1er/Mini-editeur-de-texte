@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import command.Command;
 import observer.Subject;
@@ -61,16 +62,16 @@ public class Ihm_Impl extends JFrame implements Ihm {
 		
 		textArea = new ZoneDeTexte(this);
 		textArea.addCaretListener(textArea);
-		textArea.addKeyListener(textArea);
-		
-		zoneSaisiePanel.add(textArea);
+		textArea.addKeyListener(textArea);		
+		JScrollPane scroll = new JScrollPane(textArea);
+		zoneSaisiePanel.add(scroll);
 		
 		JBCopier = new JButton("Copier");
 		JBCopier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("copier");
-				textArea.requestFocusInWindow();
+				//textArea.requestFocusInWindow();
 			}
 		});
 
@@ -79,7 +80,7 @@ public class Ihm_Impl extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("couper");
-				textArea.requestFocusInWindow();
+				//textArea.requestFocusInWindow();
 			}
 		});
 
@@ -88,7 +89,7 @@ public class Ihm_Impl extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("coller");
-				textArea.requestFocusInWindow();
+				//textArea.requestFocusInWindow();
 			}
 		});
 		
@@ -97,10 +98,10 @@ public class Ihm_Impl extends JFrame implements Ihm {
 		buttonPanel.add(JBColler);
 		
 		pressePapierLabel = new JLabel();
-		pressePapierLabel.setText("Presse papier: ");
+		setPressePapierLabelTexte("");
 		
 		selectionLabel = new JLabel();
-		selectionLabel.setText("Debut Selection:  | Fin Selection: ");
+		setSelectionLabelTexte(selection.getDebut() , selection.getFin());
 
 		pressePapierViewerPanel.add(pressePapierLabel);
 		selectionViewerPanel.add(selectionLabel);
@@ -114,7 +115,7 @@ public class Ihm_Impl extends JFrame implements Ihm {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-	}	
+	}
 	
 	/**
 	 * returns the property selection of this object
@@ -174,7 +175,27 @@ public class Ihm_Impl extends JFrame implements Ihm {
 	public void setPressePapier(String pressePapier) {
 		this.pressePapier = pressePapier;
 	}
-		
+	
+	/**
+	 * Modifie le texte du label renseignant sur l'état de la selection
+	 * @param debut
+	 * 				Position de début de la selection
+	 * @param fin
+	 * 				Position de fin de la selection
+	 */
+	public void setSelectionLabelTexte(int debut, int fin){
+		selectionLabel.setText("Debut Selection: " + debut + " | Fin Selection: " + fin);
+	}
+	
+	/**
+	 * Modifie le texte du label renseignant sur l'état du presse papier
+	 * @param texte 
+	 * 				Etat du presse papier
+	 */
+	public void setPressePapierLabelTexte(String texte){
+		pressePapierLabel.setText("Presse papier: " + texte);
+	}
+			
 	/**
 	 * Ajoute une commande à la hashmap
 	 * 
@@ -215,7 +236,12 @@ public class Ihm_Impl extends JFrame implements Ihm {
 		int finSelect = moteurEdition.getSelection().getFin();
 		
 		textArea.setText(texteBuffer);
-		pressePapierLabel.setText("Presse papier: " + textePp);
-		selectionLabel.setText("Debut Selection:  " + debutSelec + " | Fin Selection: " + finSelect);
+		textArea.requestFocusInWindow(); //Restitution du focus à la zone de texte
+		//Repositionnement de la selection courante
+		textArea.setSelectionStart(debutSelec);
+		textArea.setSelectionEnd(finSelect);
+		//Actualisation des labels d'état du presse-papier et de la selection
+		setPressePapierLabelTexte(textePp);
+		setSelectionLabelTexte(debutSelec, finSelect);
 	}	
 }
