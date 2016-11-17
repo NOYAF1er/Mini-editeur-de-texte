@@ -7,11 +7,11 @@ import command.InsererTexte;
 import command.Selectionner;
 import command.Supprimer;
 import invoker.Ihm;
-import invoker.Ihm_Impl;
+import invoker.IhmV1;
 import receiver.MoteurEdition;
 import receiver.MoteurEdition_Impl;
 
-public class Main {
+public class MainV1 {
 	
 	/**
 	 * Lance l'application mini editeur
@@ -20,7 +20,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		MoteurEdition moteur = new MoteurEdition_Impl();
-		Ihm ihm = new Ihm_Impl();
+		Ihm ihm = new IhmV1();
 		
 		ihm.addCommand("copier", new Copier(moteur));
 		ihm.addCommand("couper", new Couper(moteur));

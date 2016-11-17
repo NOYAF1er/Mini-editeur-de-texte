@@ -19,7 +19,7 @@ import receiver.MoteurEdition_Impl;
 import receiver.Selection;
 
 @SuppressWarnings("serial")
-public class Ihm_Impl extends JFrame implements Ihm {
+public class IhmV1 extends JFrame implements Ihm {
 
 	private Container contenuFenetre = null;
 	private ZoneDeTexte textArea = null;
@@ -38,7 +38,7 @@ public class Ihm_Impl extends JFrame implements Ihm {
 	 * @param moteur : moteur de l'éditeur
 	 * @param ihm : ihm
 	 */
-	public Ihm_Impl(){
+	public IhmV1(){
 		super("Mini-Editeur V1");
 		
 		selection = new Selection();
@@ -195,7 +195,7 @@ public class Ihm_Impl extends JFrame implements Ihm {
 	public void setPressePapierLabelTexte(String texte){
 		pressePapierLabel.setText("Presse papier: " + texte);
 	}
-			
+	
 	/**
 	 * Ajoute une commande à la hashmap
 	 * 

@@ -1,6 +1,9 @@
 package receiver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import memento.Memento;
 import memento.CommandeEnregistrable;
 
@@ -13,14 +16,21 @@ import memento.CommandeEnregistrable;
 
 public class Enregistreur_Impl implements Enregistreur {
 	
-	private HashMap<CommandeEnregistrable, Memento> statesSaved;
+	//HashMap à remplacer car ne prend de doublon comme clé
+	//private HashMap<CommandeEnregistrable, Memento> statesSaved;
 	private boolean recording;	
+	private List<CommandeEnregistrable> cmds;
+	private List<Memento> mementos;
+	
 	
 	/**
 	 * Constructeur
 	 */
 	public Enregistreur_Impl() {
-		statesSaved = new HashMap<CommandeEnregistrable, Memento>();
+		//statesSaved = new HashMap<CommandeEnregistrable, Memento>();
+		cmds = new ArrayList<>();
+		mementos = new ArrayList<>();
+		recording = false;
 	}
 		
 	/**
@@ -29,7 +39,10 @@ public class Enregistreur_Impl implements Enregistreur {
 	 */
 	@Override
 	public void demarrer() {
-		statesSaved.clear(); //Supprime les éventuels états enregistrés
+		System.out.println("--Démarrer");
+		//statesSaved.clear(); //Supprime les éventuels états enregistrés
+		cmds.clear();
+		mementos.clear();
 		recording = true;
 	}
 
@@ -38,7 +51,8 @@ public class Enregistreur_Impl implements Enregistreur {
 	 */
 	@Override
 	public void arreter() {
-		recording = false;		
+		recording = false;
+		System.out.println("--Arreter");
 	}
 	
 	/**
@@ -47,7 +61,10 @@ public class Enregistreur_Impl implements Enregistreur {
 	 */
 	public void enregistrer(CommandeEnregistrable c) {
 		if(recording) {
-			statesSaved.put(c, c.getMemento());
+			System.out.println("--Enregistrer");
+			//statesSaved.put(c, c.getMemento());
+			cmds.add(c);
+			mementos.add(c.getMemento());
 		}
 	}
 
@@ -56,11 +73,21 @@ public class Enregistreur_Impl implements Enregistreur {
 	 */
 	@Override
 	public void rejouer() {
-		if(!recording) {
-			for(CommandeEnregistrable c: statesSaved.keySet()){
-				c.setMemento(statesSaved.get(c)); 
+		this.arreter();
+		System.out.println("--Rejouer");
+		/*for(CommandeEnregistrable c: statesSaved.keySet()){
+			c.setMemento(statesSaved.get(c));
+			System.out.println(c.getClass());
+		}*/
+		
+		if(cmds.size() == mementos.size())
+		{
+			for(int i = 0, j = cmds.size(); i < j; i++)
+			{
+				cmds.get(i).setMemento(mementos.get(i));
+				cmds.get(i).execute();
 			}
 		}
 	}
-
+	
 }
