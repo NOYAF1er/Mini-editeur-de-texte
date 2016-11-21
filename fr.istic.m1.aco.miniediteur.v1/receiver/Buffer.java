@@ -54,8 +54,6 @@ public class Buffer {
 	 * @return Un sous ensemble du texte du buffer
 	 */
 	public String recuperer(int indiceDebut, int indiceFin) {
-		System.out.println("deb: " + indiceDebut + " -- fin: " + indiceFin);
-		System.out.println("Contenu:   " + this.contenu); 
 		return this.contenu.substring(indiceDebut, indiceFin);
 	}
 
