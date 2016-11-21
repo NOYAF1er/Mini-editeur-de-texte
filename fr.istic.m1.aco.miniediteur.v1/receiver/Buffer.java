@@ -31,7 +31,7 @@ public class Buffer {
 	/**
 	 * Retourne le texte du contenu du buffer
 	 * 
-	 * @return
+	 * @return Le contenu textuel du buffer
 	 */
 	public String getContenuTexte() {
 		return contenu.toString();
@@ -40,7 +40,7 @@ public class Buffer {
 	/**
 	 * Recupère le contenu du buffer
 	 * 
-	 * @return
+	 * @return Le contenu (StringBuffer)
 	 */
 	public StringBuffer getContenu() {
 		return contenu;
@@ -51,9 +51,11 @@ public class Buffer {
 	 * 
 	 * @param indiceDebut
 	 * @param indiceFin
-	 * @return
+	 * @return Un sous ensemble du texte du buffer
 	 */
 	public String recuperer(int indiceDebut, int indiceFin) {
+		System.out.println("deb: " + indiceDebut + " -- fin: " + indiceFin);
+		System.out.println("Contenu:   " + this.contenu); 
 		return this.contenu.substring(indiceDebut, indiceFin);
 	}
 

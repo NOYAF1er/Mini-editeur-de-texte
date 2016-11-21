@@ -31,17 +31,25 @@ public class ZoneDeTexte extends JTextArea implements CaretListener, KeyListener
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		e.consume();
+		if( ((int) e.getKeyChar()) == KeyEvent.VK_DELETE ){
+			ihm.invoke("supprimer");
+		}
+		else{		
+			if(e.getKeyChar() != '\b') {
+				ihm.setInputCharacter(String.valueOf(e.getKeyChar()));
+				ihm.invoke("insererTexte");
+			}
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-		 	e.consume();
-			ihm.invoke("supprimer");
-		} else{
-			ihm.setInputCharacter(String.valueOf(e.getKeyChar()));
-			ihm.invoke("insererTexte");
+		if(!e.isActionKey()) {
+			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+			 	e.consume();
+				ihm.invoke("RetourArriere");
+			}
 		}
 	}
 

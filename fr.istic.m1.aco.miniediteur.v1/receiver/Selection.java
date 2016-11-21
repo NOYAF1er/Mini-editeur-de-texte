@@ -42,8 +42,8 @@ public class Selection {
 	 * @param fin
 	 */
 	public void setPosition(int debut, int fin) {
-		this.setDebut(debut);
-		this.setFin(fin);
+		this.setDebut(Math.min(debut, fin));
+		this.setFin(Math.max(debut, fin));
 	}
 	
 	/**

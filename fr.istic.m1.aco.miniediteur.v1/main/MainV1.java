@@ -4,6 +4,7 @@ import command.Coller;
 import command.Copier;
 import command.Couper;
 import command.InsererTexte;
+import command.RetourArriere;
 import command.Selectionner;
 import command.Supprimer;
 import invoker.Ihm;
@@ -25,6 +26,7 @@ public class MainV1 {
 		ihm.addCommand("copier", new Copier(moteur));
 		ihm.addCommand("couper", new Couper(moteur));
 		ihm.addCommand("coller", new Coller(moteur));
+		ihm.addCommand("RetourArriere", new RetourArriere(moteur));
 		ihm.addCommand("supprimer", new Supprimer(moteur));
 		ihm.addCommand("selectionner", new Selectionner(moteur, ihm));
 		ihm.addCommand("insererTexte", new InsererTexte(moteur, ihm));		

@@ -13,5 +13,6 @@ public interface MoteurEdition extends Subject {
 	public void coller();
 	public void insererTexte(String texte);
 	public void selectionner(int debut, int longueur);
+	public void retourArriere();
 	public void supprimer();
 }

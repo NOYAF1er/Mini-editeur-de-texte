@@ -55,7 +55,7 @@ public class MoteurEdition_Impl implements MoteurEdition {
 		pressePapier.setContenu(aCouper);
 		buffer.supprimer(selection.getDebut(), selection.getFin());
 		selection.setFin(selection.getDebut());; // Annule la selection
-		notifyObservers();
+		notifyObservers(); //Notifie l'action aux observateurs
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class MoteurEdition_Impl implements MoteurEdition {
 	public void copier() {
 		String aCopier = buffer.recuperer(selection.getDebut(), selection.getFin());
 		pressePapier.setContenu(aCopier);
-		notifyObservers();
+		notifyObservers(); //Notifie l'action aux observateurs
 	}
 
 	/**
@@ -78,7 +78,8 @@ public class MoteurEdition_Impl implements MoteurEdition {
 
 		int newPosition = debutSelect + pressePapier.getContenu().length();
 		selection.setPosition(newPosition, newPosition); // Repositionne le curseur de selection et annule la selection
-		notifyObservers();
+		
+		notifyObservers(); //Notifie l'action aux observateurs
 	}
 
 	/**
@@ -87,11 +88,15 @@ public class MoteurEdition_Impl implements MoteurEdition {
 	 */
 	public void insererTexte(String texte) {
 		int debutSelect = selection.getDebut();
-		int finSelect = selection.getFin();		
+		int finSelect = selection.getFin();
+
 		buffer.remplacer(debutSelect, finSelect, texte);
 		
 		int newPosition = debutSelect + texte.length();
 		selection.setPosition(newPosition, newPosition); // Repositionne le curseur de selection et annule la selection
+		
+		System.out.println(buffer.getContenuTexte());
+		notifyObservers(); 
 	}
 
 	/**
@@ -107,10 +112,10 @@ public class MoteurEdition_Impl implements MoteurEdition {
 	}
 
 	/**
-	 * Supprime la selection du contenu du buffer sinon le caractère préccédent
-	 * la position courante
+	 * Supprime la selection du contenu du buffer 
+	 * sinon le caractère précédent la position courante
 	 */
-	public void supprimer() {
+	public void retourArriere() {
 		int debutSelect = selection.getDebut();
 		int finSelect = selection.getFin();
 		int longueurSelect = finSelect - debutSelect;
@@ -124,9 +129,31 @@ public class MoteurEdition_Impl implements MoteurEdition {
 				selection.setPosition((debutSelect - 1), (debutSelect - 1)); // Repositionne le curseur
 			}
 		}
-		notifyObservers();
+		System.out.println(buffer.getContenuTexte());
+		notifyObservers(); //Notifie l'action aux observateurs
 	}
 	
+	/**
+	 * Supprime la selection du contenu du buffer 
+	 * sinon le caractère suivant la position courante
+	 */
+	public void supprimer() {
+		int debutSelect = selection.getDebut();
+		int finSelect = selection.getFin();
+		int longueurSelect = finSelect - debutSelect;
+
+		if (longueurSelect > 0) {
+			buffer.supprimer(debutSelect, finSelect);
+			selection.setFin(debutSelect); // Annule la selection précédente
+		} else {
+			if(debutSelect > 0){
+				buffer.supprimer(debutSelect, debutSelect+1);
+				selection.setPosition(debutSelect, debutSelect); // Repositionne le curseur
+			}
+		}
+		System.out.println(buffer.getContenuTexte());
+		notifyObservers(); //Notifie l'action aux observateurs
+	}	
 	//-------------------------------------------
 	// 			METHODES DE L'OBSERVER
 	//-------------------------------------------
