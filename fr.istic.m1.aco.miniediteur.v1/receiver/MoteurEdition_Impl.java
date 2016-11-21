@@ -95,7 +95,6 @@ public class MoteurEdition_Impl implements MoteurEdition {
 		int newPosition = debutSelect + texte.length();
 		selection.setPosition(newPosition, newPosition); // Repositionne le curseur de selection et annule la selection
 		
-		System.out.println(buffer.getContenuTexte());
 		notifyObservers(); 
 	}
 
@@ -129,7 +128,6 @@ public class MoteurEdition_Impl implements MoteurEdition {
 				selection.setPosition((debutSelect - 1), (debutSelect - 1)); // Repositionne le curseur
 			}
 		}
-		System.out.println(buffer.getContenuTexte());
 		notifyObservers(); //Notifie l'action aux observateurs
 	}
 	
@@ -151,7 +149,6 @@ public class MoteurEdition_Impl implements MoteurEdition {
 				selection.setPosition(debutSelect, debutSelect); // Repositionne le curseur
 			}
 		}
-		System.out.println(buffer.getContenuTexte());
 		notifyObservers(); //Notifie l'action aux observateurs
 	}	
 	//-------------------------------------------
