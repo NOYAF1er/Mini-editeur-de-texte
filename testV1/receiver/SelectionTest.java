@@ -9,14 +9,27 @@ public class SelectionTest {
 	private Selection selection;
 	
 	@Test
-	public void testSelection(){
-		selection = new Selection(-5, -10);
-		assertEquals("Début différent de 0 avec une valeur d'entrée négative", 0, selection.getDebut());
-		assertEquals("Fin différente de 0 avec une valeur d'entrée négative", 0, selection.getFin());
+	public void testSetPosition(){
+		selection = new Selection();
+		
+		int debut = 5;
+		int fin = 10;
+		selection.setPosition(debut, fin);		
+		assertEquals("Cas 0 < debut < fin | Début différents", debut, selection.getDebut());
+		assertEquals("Cas 0 < debut < fin | Fin différentes", fin, selection.getFin());
 
-		selection = new Selection(5, 10);
-		assertEquals("Début différent de la valeur défini en entrée", 5, selection.getDebut());
-		assertEquals("Fin différente de la valeur défini en entrée", 10, selection.getFin());
+		debut = 10;
+		fin = 5;
+		selection.setPosition(debut, fin);
+		assertEquals("Cas 0 < fin < debut | Début différents", fin, selection.getDebut());
+		assertEquals("Cas 0 < fin < debut | Fin différentes", debut, selection.getFin());
+		
+		debut = -5;
+		fin = -1;
+		selection.setPosition(debut, fin);
+		assertEquals("Cas debut < fin < 0 | Début différents de 0", 0, selection.getDebut());
+		assertEquals("Cas debut < fin < 0 | Fin différentes de 0", 0, selection.getFin());
+		
 	}
 	
 	@Test
@@ -26,10 +39,10 @@ public class SelectionTest {
 		assertEquals("Le début à l'initialisation est différente de 0", 0, selection.getDebut());
 		
 		selection.setDebut(-5);
-		assertEquals("Début différent de 0 avec une valeur d'entrée négative", 0, selection.getDebut());
+		assertEquals("Cas debut < 0 | Début différents de 0", 0, selection.getDebut());
 		
 		selection.setDebut(10);
-		assertEquals("Début différent de la valeur défini en entrée", 10, selection.getDebut());
+		assertEquals("Cas 0 < debut | Début différents", 10, selection.getDebut());
 		
 	}
 
@@ -40,9 +53,9 @@ public class SelectionTest {
 		assertEquals("La fin à l'initialisation est différente de 0", 0, selection.getFin());
 		
 		selection.setFin(-5);
-		assertEquals("Fin différente de 0 avec une valeur d'entrée négative", 0, selection.getFin());
+		assertEquals("Cas fin < 0 | Fin différentes de 0", 0, selection.getFin());
 		
 		selection.setFin(10);
-		assertEquals("Fin différente de la valeur défini en entrée", 10, selection.getFin());
+		assertEquals("Cas 0 < fin | Fin différentes", 10, selection.getFin());
 	}
 }
