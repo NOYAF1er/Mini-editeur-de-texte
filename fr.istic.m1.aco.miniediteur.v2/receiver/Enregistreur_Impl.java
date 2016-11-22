@@ -1,7 +1,6 @@
 package receiver;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import memento.Memento;
@@ -16,8 +15,6 @@ import memento.CommandeEnregistrable;
 
 public class Enregistreur_Impl implements Enregistreur {
 	
-	//HashMap à remplacer car ne prend de doublon comme clé
-	//private HashMap<CommandeEnregistrable, Memento> statesSaved;
 	private boolean recording;	
 	private List<CommandeEnregistrable> cmds;
 	private List<Memento> mementos;
@@ -27,7 +24,6 @@ public class Enregistreur_Impl implements Enregistreur {
 	 * Constructeur
 	 */
 	public Enregistreur_Impl() {
-		//statesSaved = new HashMap<CommandeEnregistrable, Memento>();
 		cmds = new ArrayList<>();
 		mementos = new ArrayList<>();
 		recording = false;
@@ -39,8 +35,6 @@ public class Enregistreur_Impl implements Enregistreur {
 	 */
 	@Override
 	public void demarrer() {
-		System.out.println("--Démarrer");
-		//statesSaved.clear(); //Supprime les éventuels états enregistrés
 		cmds.clear();
 		mementos.clear();
 		recording = true;
@@ -52,7 +46,6 @@ public class Enregistreur_Impl implements Enregistreur {
 	@Override
 	public void arreter() {
 		recording = false;
-		System.out.println("--Arreter");
 	}
 	
 	/**
@@ -61,8 +54,6 @@ public class Enregistreur_Impl implements Enregistreur {
 	 */
 	public void enregistrer(CommandeEnregistrable c) {
 		if(recording) {
-			System.out.println("--Enregistrer");
-			//statesSaved.put(c, c.getMemento());
 			cmds.add(c);
 			mementos.add(c.getMemento());
 		}
@@ -74,12 +65,6 @@ public class Enregistreur_Impl implements Enregistreur {
 	@Override
 	public void rejouer() {
 		this.arreter();
-		System.out.println("--Rejouer");
-		/*for(CommandeEnregistrable c: statesSaved.keySet()){
-			c.setMemento(statesSaved.get(c));
-			System.out.println(c.getClass());
-		}*/
-		
 		if(cmds.size() == mementos.size())
 		{
 			for(int i = 0, j = cmds.size(); i < j; i++)

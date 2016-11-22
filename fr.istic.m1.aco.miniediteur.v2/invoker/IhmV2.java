@@ -74,6 +74,7 @@ public class IhmV2 extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("copier");
+				textArea.requestFocusInWindow();
 			}
 		});
 
@@ -82,6 +83,7 @@ public class IhmV2 extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("couper");
+				textArea.requestFocusInWindow();
 			}
 		});
 
@@ -90,6 +92,7 @@ public class IhmV2 extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("coller");
+				textArea.requestFocusInWindow();
 			}
 		});
 
@@ -99,6 +102,8 @@ public class IhmV2 extends JFrame implements Ihm {
 			public void actionPerformed(ActionEvent e) {
 				invoke("enregister");
 				JBRecord.setEnabled(false);
+				JBReplay.setEnabled(true);
+				textArea.requestFocusInWindow();
 			}
 		});
 		
@@ -108,14 +113,18 @@ public class IhmV2 extends JFrame implements Ihm {
 			public void actionPerformed(ActionEvent e) {
 				invoke("arreter");
 				JBRecord.setEnabled(true);
+				textArea.requestFocusInWindow();
 			}
 		});
 		
 		JBReplay = new JButton("Replay");
+		JBReplay.setEnabled(false);
 		JBReplay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("rejouer");
+				JBRecord.setEnabled(true);
+				textArea.requestFocusInWindow();
 			}
 		});
 		
