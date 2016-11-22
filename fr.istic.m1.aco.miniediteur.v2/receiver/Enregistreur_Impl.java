@@ -69,9 +69,7 @@ public class Enregistreur_Impl implements Enregistreur {
 		{
 			for(int i = 0, j = cmds.size(); i < j; i++)
 			{
-				System.out.println(cmds.get(i).toString() + " " + mementos.get(i).toString());
 				cmds.get(i).setMemento(mementos.get(i));
-				cmds.get(i).execute();
 			}
 		}
 	}
