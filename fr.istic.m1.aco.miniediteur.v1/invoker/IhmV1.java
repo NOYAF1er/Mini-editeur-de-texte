@@ -62,7 +62,7 @@ public class IhmV1 extends JFrame implements Ihm {
 		
 		textArea = new ZoneDeTexte(this);
 		textArea.addCaretListener(textArea);
-		textArea.addKeyListener(textArea);		
+		textArea.addKeyListener(textArea);
 		JScrollPane scroll = new JScrollPane(textArea);
 		zoneSaisiePanel.add(scroll);
 		
@@ -71,7 +71,7 @@ public class IhmV1 extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("copier");
-				//textArea.requestFocusInWindow();
+				textArea.requestFocusInWindow();
 			}
 		});
 
@@ -80,7 +80,7 @@ public class IhmV1 extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("couper");
-				//textArea.requestFocusInWindow();
+				textArea.requestFocusInWindow();
 			}
 		});
 
@@ -89,7 +89,7 @@ public class IhmV1 extends JFrame implements Ihm {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				invoke("coller");
-				//textArea.requestFocusInWindow();
+				textArea.requestFocusInWindow();
 			}
 		});
 		
@@ -115,6 +115,8 @@ public class IhmV1 extends JFrame implements Ihm {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		
+		textArea.requestFocusInWindow();
 	}
 	
 	/**
