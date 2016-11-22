@@ -118,7 +118,7 @@ public class MoteurEdition_Impl implements MoteurEdition {
 		int debutSelect = selection.getDebut();
 		int finSelect = selection.getFin();
 		int longueurSelect = finSelect - debutSelect;
-
+		
 		if (longueurSelect > 0) {
 			buffer.supprimer(debutSelect, finSelect);
 			selection.setFin(debutSelect); // Annule la selection précédente
@@ -139,7 +139,7 @@ public class MoteurEdition_Impl implements MoteurEdition {
 		int debutSelect = selection.getDebut();
 		int finSelect = selection.getFin();
 		int longueurSelect = finSelect - debutSelect;
-
+		
 		if (longueurSelect > 0) {
 			buffer.supprimer(debutSelect, finSelect);
 			selection.setFin(debutSelect); // Annule la selection précédente
