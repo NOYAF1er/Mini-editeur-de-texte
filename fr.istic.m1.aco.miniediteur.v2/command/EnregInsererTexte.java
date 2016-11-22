@@ -36,5 +36,4 @@ public class EnregInsererTexte extends InsererTexte implements CommandeEnregistr
 		ihm.setInputCharacter((String) cm.getState());
 		super.execute();
 	}
-
 }
